@@ -10,4 +10,6 @@ require 'json'
 require 'mongo'
 require './app'
 
+$stdout.sync = true
+
 run Sinatra::Application
