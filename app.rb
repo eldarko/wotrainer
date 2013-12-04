@@ -19,12 +19,15 @@ def do_connect
 	dbconn
 end
 
+$dbconn = nil
+$dbcats = nil
+
 def dbconn
-	@dbconn ||= do_connect
+	$dbconn ||= do_connect
 end
 
 def dbcats
-	@dbcats ||= dbconn.collection('categories')
+	$dbcats ||= dbconn.collection('categories')
 end
 
 post '/categories' do
