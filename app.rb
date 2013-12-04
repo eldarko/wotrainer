@@ -5,6 +5,8 @@ def do_connect
 
 		dbconn = EM::Mongo::Connection.new(uri.host, uri.port).db(dbname)
 		dbconn.authenticate(uri.user, uri.password) unless (uri.user.nil? || uri.password.nil?)
+
+		puts "u=#{uri.user} p=#{uri.password}"
 	else
 		dbconn = EM::Mongo::Connection.new('localhost').db('wotrainer')
 	end
