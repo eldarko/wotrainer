@@ -4,7 +4,12 @@ def do_connect
 		dbname = uri.path.gsub(/^\//, '')
 
 		dbconn = EM::Mongo::Connection.new(uri.host, uri.port).db(dbname)
-		dbconn.authenticate(uri.user, uri.password) unless (uri.user.nil? || uri.password.nil?)
+		resp = dbconn.authenticate(uri.user, uri.password) unless (uri.user.nil? || uri.password.nil?)
+		resp.callback do |res|
+			puts "auth result: #{res}"
+		end.errback do |err|
+			puts "auth error: #{err}"
+		end
 
 		puts "u=#{uri.user} p=#{uri.password}"
 	else
