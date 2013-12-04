@@ -14,6 +14,7 @@ def do_connect
 		puts "u=#{uri.user} p=#{uri.password}"
 	else
 		dbconn = EM::Mongo::Connection.new('localhost').db('wotrainer')
+		puts "local connection #{dbconn}"
 	end
 	dbconn
 end
@@ -43,5 +44,10 @@ get '/categories' do
 			out.close
 		end
 	end
+end
+
+# Force Mongo connection
+EM.schedule do
+	dbconn
 end
 
