@@ -1,4 +1,4 @@
-configure do
+def do_connect
 	if ENV['MONGOHQ_URL']
 		uri    = URI.parse(ENV['MONGOHQ_URL'])
 		dbname = uri.path.gsub(/^\//, '')
@@ -8,21 +8,21 @@ configure do
 	else
 		dbconn = EM::Mongo::Connection.new('localhost').db('wotrainer')
 	end
-
-	dbcats = dbconn.collection('categories')
+	dbconn
 end
 
-# configure do
-#  if ENV['MONGOHQ_URL']
-#    uri = URI.parse(ENV['MONGOHQ_URL'])
-#    conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
-#    DB = conn.db(uri.path.gsub(/^\//, ''))
-#  else
-#    DB = Mongo::Connection.new.db("mongo-twitter-streaming")
- # end
-  
-#  DB.create_collection("tweets", :capped => true, :size => 10485760)
-#end
+def dbconn
+	@dbconn ||= do_connect
+end
+
+def dbcats
+	@dbcats ||= dbconn.collection('categories')
+end
+
+post '/categories' do
+	stream :keep_open do |out|
+	end
+end
 
 get '/categories' do
 	stream :keep_open do |out|
