@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
+gem 'async_sinatra'
 gem 'thin'
 gem 'mongo'
 gem 'em-mongo'
